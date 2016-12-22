@@ -71,4 +71,9 @@ func main() {
 	for i := 0; i < len(slice1); i++ {
 		fmt.Println("slice[", i, "]=", slice1[i])
 	}
+	
+	// 使用range关键字操作数组切片
+	for i, v := range slice3 {
+		fmt.Println("slice[", i, "]=", v)
+	}
 }
