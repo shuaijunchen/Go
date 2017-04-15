@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("Golang index..")
+	fmt.Printf("%s","Hello")
 }
