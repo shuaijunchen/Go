@@ -1,0 +1,28 @@
+// channel_select.go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+func main() {
+	ch := make(chan bool)
+
+	var done sync.WaitGroup
+	done.Add(1)
+
+	go func() {
+		select {
+		case <-time.After(1 * time.Hour):
+		case <-ch:
+		}
+		done.Done()
+	}()
+
+	t := time.Now()
+	ch <- true
+	done.Wait()
+	fmt.Printf("Waited %v for goroutine to stop\n", time.Since(t))
+}
