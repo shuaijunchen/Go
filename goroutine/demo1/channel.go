@@ -1,9 +1,7 @@
 // channel.go
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
 	ch := make(chan bool, 2)
