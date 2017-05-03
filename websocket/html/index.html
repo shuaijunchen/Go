@@ -1,39 +1,39 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-
 <head>
-    <script type="text/javascript">
-        function myWebsocketStart() {
-            var ws = new WebSocket("ws://127.0.0.1:3000/websocket");
-
-            ws.onopen = function() {
-                // Web Socket is connected, send data using send()
-                ws.send("ping")
-                var myTextArea = document.getElementById("textarea1")
-                myTextArea.value = myTextArea.value + "\n" + "First message sent";
-            };
-
-            ws.onmessage = function(evt) {
-                var myTextArea = document.getElementById("textarea1");
-                myTextArea.value = myTextArea.value + "\n" + evt.data;
-                if (evt.data == "pong") {
-                    setTimeout(function() {
-                        ws.send("ping");
-                    }, 2000);
-                }
-            };
-
-            ws.onclose = function() {
-                var myTextArea = document.getElementById("textarea1");
-                myTextArea.value = myTextArea.value + "\n" + "Connection closed";
-            };
-        }
-    </script>
+	<title>websocket</title>
 </head>
-
 <body>
-    <button onclick="javascript:myWebsocketStart()">Start websocket</button>
-    <textarea id="textarea1">MyTextArea</textarea>
-</body>
+	<button onclick="javascript:websocket()">srart websocket</button>
+	<textarea id="message">text area</textarea>
+	<script type="text/javascript">
+		function websocket() {
+		    var ws = new WebSocket("ws://127.0.0.1:3000/websocket");
+		    console.log(ws);
 
+		    ws.onopen = function() {
+		        // Web Socket is connected, send data using send()
+		        ws.send("hello")
+		        var msg = document.getElementById("message")
+		        msg.value = msg.value + "\n" + "first message sent";
+		    };
+
+		    ws.onmessage = function(evt) {
+		    	console.log(evt);
+		        var msg = document.getElementById("message");
+		        msg.value = msg.value + "\n" + evt.data;
+		        if (evt.data == "Hello, 世界！") {
+		            setTimeout(function() {
+		                ws.send("hello");
+		            }, 2000);
+		        }
+		    };
+
+		    ws.onclose = function() {
+		        var msg = document.getElementById("message");
+		        msg.value = msg.value + "\n" + "Connection closed";
+		    };
+		}
+	</script>
+</body>
 </html>

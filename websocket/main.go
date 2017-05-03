@@ -12,11 +12,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type Person struct {
-	Name string
-	Age  int
-}
-
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
@@ -29,41 +24,42 @@ func main() {
 	index, err := ioutil.ReadAll(indexFile)
 	checkErr(err)
 
-	http.HandleFunc("/websocket", func(w http.ResponseWriter, r *http.Request) {
-		conn, err := upgrader.Upgrade(w, r, nil)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
-
-		for {
-			msgType, msg, err := conn.ReadMessage()
-			if err != nil {
-				fmt.Println(err)
-				return
-			}
-			if string(msg) == "ping" {
-				fmt.Println("ping")
-				time.Sleep(time.Second * 2)
-				err = conn.WriteMessage(msgType, []byte("pong"))
-				if err != nil {
-					fmt.Println(err)
-					return
-				}
-			} else {
-				conn.Close()
-				fmt.Println(string(msg))
-				return
-			}
-		}
-
-	})
+	http.HandleFunc("/websocket", Hello)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, string(index))
 	})
 
 	http.ListenAndServe(":3000", nil)
+}
+
+func Hello(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	for {
+		msgType, msg, err := conn.ReadMessage()
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if string(msg) == "hello" {
+			fmt.Println(string(msg))
+			time.Sleep(time.Second * 2)
+			err = conn.WriteMessage(msgType, []byte("Hello, 世界！"))
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+		} else {
+			conn.Close()
+			fmt.Println(string(msg))
+			return
+		}
+	}
 }
 
 func checkErr(err error) {
