@@ -15,7 +15,7 @@ func main() {
 	var str string = "张三"
 	fmt.Println(str)
 
-	// :=简洁的定义变量，分别初始化相应的值，类型会根据初始值自动推导出想要的类型
+	// :=是简洁的定义变量，分别初始化相应的值，类型会根据初始值自动推导出想要的类型
 	ii, f, s, d := 10, 20.01, "string", true
 	fmt.Println(ii, f, s, d)
 	fmt.Printf("Type i type: %T\n", ii) // 推导出变量类型
