@@ -2,6 +2,8 @@ package main
 
 import "fmt"
 
+// 注意：在Go语言中，变量，函数首字母大写代表公开，小写表示为私有
+
 // 常量定义
 const (
 	x = iota // x == 0
